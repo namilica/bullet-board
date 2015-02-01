@@ -1,2 +1,1 @@
-src/templates/*
-src/storage/cache/*
+!.gitignore
