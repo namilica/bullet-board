@@ -1,0 +1,60 @@
+*{
+	font-family:monospace;
+	color:#333;
+	box-sizing:border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding:0px;
+}
+body{
+	background:#eee;
+	margin:auto;
+}
+div.reply .header{
+	font-weight:bold;
+	font-size:1.5em;
+	background:#b083f0;
+	padding:0.5em;
+}
+div.reply input, div.reply textarea{
+	background:none;
+	color:#6033a0;
+	width:100%;
+	resize:none;
+	border:none;
+	margin:auto;
+	padding:0.5em;
+}
+div.reply input:invalid{
+	background:#f083b0;
+	box-shadow:none;
+}
+div.reply input[type='submit']{
+	background:#b0f083;
+	color:#333;
+	font-weight:bold;
+}
+.post>*{
+	padding:0.5em;
+}
+.postInfo{
+	background:#f0b083;
+}
+span.name{
+	font-weight:bold;
+}
+.number{
+	float:right;
+}
+.comment{
+	white-space:pre-wrap;
+	overflow:auto;
+}
+@media only screen and (min-width:800px){
+	body{
+		width:790px;
+	}
+	.post{
+		display:table;
+	}
+}
