@@ -1,7 +1,7 @@
 <?php
 
 use \view\view;
-$template = new view(__DIR__.'/templates', __DIR__.'/storage/cache');
+$template = new view(__DIR__.'/templates', __DIR__.'/../storage/cache');
 $posts = [
 	['id' => 0, 'name' => '@non-san', 'post' => 'ur a fa&get'],
 	['id' => 1, 'name' => '@non-kun', 'post' => 'try me'],
