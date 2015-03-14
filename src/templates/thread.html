@@ -9,14 +9,18 @@
 <body>
 <main>
 	<h1 id="announce">{{$announcement = 'super sonic'}}</h1>
-	{%foreach($posts as $value):%}
+	{%foreach($posts as $value)%}
 	<div class="post">
 		<div class="postInfo">
 			<span class="name">{{{$value['name']}}}</span>&nbsp;<span class="number">No.{{$value['id']}}</span>
 		</div>
 		<div class="comment">{{{$value['post']}}}</div>
 	</div>
-	{%endforeach;%}
+	{%endforeach%}
+	{%if(21)%}
+	{%elseif(23)%}
+	{%else%}
+	{%endif%}
 	<div class="reply">
 		<div class="header">New reply</div>
 		<form method="POST" action="/">

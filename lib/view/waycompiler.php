@@ -9,15 +9,14 @@ class waycompiler extends compiler{
 	public function compileString($template){
 		$result = '';
 		foreach (token_get_all($template) as $token){
-			$result .= is_array($token) ? $this->parsePHPToken($token) : $token;
+			$result .= is_array($token) ? $this->parsePHPToken($token, $this->compilers) : $token;
 		}
 		return $result;
 	}
-	protected function parsePHPToken($token){
+	protected function parsePHPToken($token, $compilers){
 		list($id, $content) = $token;
 		if ($id == T_INLINE_HTML){
-			foreach ($this->compilers as $type)
-			{
+			foreach ($compilers as $type){
 				$content = $this->{"compile{$type}"}($content);
 			}
 		}
@@ -50,7 +49,28 @@ class waycompiler extends compiler{
 		return preg_replace($pattern, '<?php echo htmlspecialchars($1); ?>', $template);
 	}
 	protected function compileControl($template){
-		$pattern = sprintf('/(\v?)\s*%s\s*(.+)\s*%s/', $this->controlDelimiter[0], $this->controlDelimiter[1]);
-		return preg_replace($pattern, '$1<?php $2 ?>', $template);
+		$controls = [
+			'foreach',
+			'if'
+		];
+		$compiled = $template;
+		foreach ($controls as $type){
+			$compiled = $this->{"compileControl{$type}"}($compiled);
+		}
+		return $compiled;
+	}
+	protected function compileControlforeach($template){
+		$pattern = sprintf('/\t*%s(foreach)(.*)%s/', $this->controlDelimiter[0], $this->controlDelimiter[1]);
+		$compiled = preg_replace($pattern, '<?php $1$2: ?>', $template);
+		$pattern = sprintf('/\t*%s\s*(endforeach)\s*%s/', $this->controlDelimiter[0], $this->controlDelimiter[1]);
+		$compiled = preg_replace($pattern, '<?php $1; ?>', $compiled);
+		return $compiled;
+	}
+	protected function compileControlif($template){
+		$pattern = sprintf('/\t*%s\s*(if|else|elseif)(.*)\s*%s/', $this->controlDelimiter[0], $this->controlDelimiter[1]);
+		$compiled = preg_replace($pattern, '<?php $1$2: ?>', $template);
+		$pattern = sprintf('/\t*%s\s*(endif)\s*%s/', $this->controlDelimiter[0], $this->controlDelimiter[1]);
+		$compiled = preg_replace($pattern, '<?php $1 ?>', $compiled);
+		return $compiled;
 	}
 }
