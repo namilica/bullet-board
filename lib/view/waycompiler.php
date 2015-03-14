@@ -60,8 +60,8 @@ class waycompiler extends compiler{
 		return $compiled;
 	}
 	protected function compileControlforeach($template){
-		$pattern = sprintf('/\t*%s(foreach)(.*)%s/', $this->controlDelimiter[0], $this->controlDelimiter[1]);
-		$compiled = preg_replace($pattern, '<?php $1$2: ?>', $template);
+		$pattern = sprintf('/\t*%s(foreach)\(([^\s]*)\s+as\s+([^\s]*)\)\s*%s/', $this->controlDelimiter[0], $this->controlDelimiter[1]);
+		$compiled = preg_replace($pattern, '<?php if(!empty($2)) $1($2 as $3): ?>', $template);
 		$pattern = sprintf('/\t*%s\s*(endforeach)\s*%s/', $this->controlDelimiter[0], $this->controlDelimiter[1]);
 		$compiled = preg_replace($pattern, '<?php $1; ?>', $compiled);
 		return $compiled;
